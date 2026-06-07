@@ -1,94 +1,146 @@
-// ─── APPLIANCES ───────────────────────────────────────────────────────────────
+// src/data.js  –  Solar Designer v1.0
+// ─────────────────────────────────────────────────────────────────
+// Appliance database · Market prices · Calculation engine
+// ─────────────────────────────────────────────────────────────────
+
 export const APPLIANCES = [
-  { id: "fan",        name: "Ceiling Fan",         watts: 75,   icon: "🌀" },
-  { id: "light_led",  name: "LED Light (10W)",      watts: 10,   icon: "💡" },
-  { id: "light_cfl",  name: "CFL Light (23W)",      watts: 23,   icon: "💡" },
-  { id: "tv_32",      name: "TV 32\" LED",          watts: 50,   icon: "📺" },
-  { id: "tv_43",      name: "TV 43\" LED",          watts: 80,   icon: "📺" },
-  { id: "fridge",     name: "Refrigerator (165L)",  watts: 150,  icon: "🧊" },
-  { id: "fridge_xl",  name: "Refrigerator (300L)",  watts: 250,  icon: "🧊" },
-  { id: "ac_1ton",    name: "AC 1 Ton",             watts: 1000, icon: "❄️" },
-  { id: "ac_15ton",   name: "AC 1.5 Ton",           watts: 1500, icon: "❄️" },
-  { id: "washing",    name: "Washing Machine",      watts: 500,  icon: "🫧" },
-  { id: "motor",      name: "Water Pump (0.5HP)",   watts: 375,  icon: "💧" },
-  { id: "motor_1hp",  name: "Water Pump (1HP)",     watts: 750,  icon: "💧" },
-  { id: "laptop",     name: "Laptop",               watts: 65,   icon: "💻" },
-  { id: "desktop",    name: "Desktop PC",           watts: 200,  icon: "🖥️" },
-  { id: "phone",      name: "Phone Charger",        watts: 20,   icon: "📱" },
-  { id: "iron",       name: "Electric Iron",        watts: 1000, icon: "👕" },
-  { id: "microwave",  name: "Microwave",            watts: 1200, icon: "📡" },
-  { id: "mixer",      name: "Mixer / Grinder",      watts: 750,  icon: "🍳" },
-  { id: "router",     name: "WiFi Router",          watts: 10,   icon: "📶" },
-  { id: "tubewell",   name: "Submersible Pump",     watts: 1500, icon: "🚰" },
-];
+  // ── Lighting ──────────────────────────────────────────────────
+  { id:'led_bulb',   icon:'💡', name:'LED Bulb (9W)',            watts:9,    hours:6,   category:'Lighting'      },
+  { id:'tubelight',  icon:'💡', name:'LED Tube Light (18W)',      watts:20,   hours:6,   category:'Lighting'      },
+  // ── Fans ──────────────────────────────────────────────────────
+  { id:'ceil_fan',   icon:'🌀', name:'Ceiling Fan',               watts:60,   hours:10,  category:'Fans'          },
+  { id:'table_fan',  icon:'🌬️', name:'Table / Pedestal Fan',      watts:55,   hours:8,   category:'Fans'          },
+  // ── Entertainment ─────────────────────────────────────────────
+  { id:'tv_32',      icon:'📺', name:'LED TV 32"',                watts:45,   hours:6,   category:'Entertainment' },
+  { id:'tv_43',      icon:'📺', name:'LED TV 43"',                watts:80,   hours:6,   category:'Entertainment' },
+  { id:'dth',        icon:'📡', name:'DTH / Set-Top Box',         watts:15,   hours:6,   category:'Entertainment' },
+  // ── Kitchen ───────────────────────────────────────────────────
+  { id:'fridge_165', icon:'🧊', name:'Refrigerator 165L',         watts:150,  hours:8,   category:'Kitchen'       },
+  { id:'fridge_250', icon:'🧊', name:'Refrigerator 250L+',        watts:200,  hours:8,   category:'Kitchen'       },
+  { id:'mixer',      icon:'🥤', name:'Mixer / Grinder',           watts:500,  hours:0.5, category:'Kitchen'       },
+  { id:'microwave',  icon:'🍲', name:'Microwave Oven',            watts:1200, hours:0.5, category:'Kitchen'       },
+  { id:'geyser',     icon:'🚿', name:'Water Heater / Geyser',     watts:2000, hours:1,   category:'Kitchen'       },
+  // ── AC & Cooling ──────────────────────────────────────────────
+  { id:'ac_1ton',    icon:'❄️', name:'Air Conditioner 1 Ton',     watts:1000, hours:8,   category:'AC & Cooling'  },
+  { id:'ac_1_5ton',  icon:'❄️', name:'Air Conditioner 1.5 Ton',   watts:1500, hours:8,   category:'AC & Cooling'  },
+  { id:'ac_2ton',    icon:'❄️', name:'Air Conditioner 2 Ton',     watts:2000, hours:8,   category:'AC & Cooling'  },
+  // ── Computing ─────────────────────────────────────────────────
+  { id:'laptop',     icon:'💻', name:'Laptop',                    watts:65,   hours:6,   category:'Computing'     },
+  { id:'desktop',    icon:'🖥️', name:'Desktop Computer',          watts:200,  hours:6,   category:'Computing'     },
+  { id:'mobile',     icon:'📱', name:'Mobile Charger',            watts:45,   hours:3,   category:'Computing'     },
+  { id:'router',     icon:'📶', name:'WiFi Router',               watts:10,   hours:24,  category:'Computing'     },
+  // ── Appliances ────────────────────────────────────────────────
+  { id:'wash_mach',  icon:'🫧', name:'Washing Machine',           watts:500,  hours:1,   category:'Appliances'    },
+  { id:'iron',       icon:'👔', name:'Electric Iron',             watts:1000, hours:0.5, category:'Appliances'    },
+  // ── Pumps ─────────────────────────────────────────────────────
+  { id:'pump_half',  icon:'💧', name:'Water Pump 0.5 HP',         watts:375,  hours:2,   category:'Pumps'         },
+  { id:'pump_1hp',   icon:'💧', name:'Submersible Pump 1 HP',     watts:750,  hours:2,   category:'Pumps'         },
+]
 
-// ─── SYSTEM TYPES ─────────────────────────────────────────────────────────────
-export const SYSTEM_TYPES = [
-  {
-    id: "ongrid",
-    name: "On-Grid",
-    icon: "⚡",
-    desc: "Connected to utility grid. Export excess power. No battery needed.",
-    pros: ["Lowest cost", "Earn from export", "No battery maintenance"],
-    cons: ["No power during grid outage", "Requires stable grid connection"],
-    batteryRequired: false,
+// ── Market Prices — India 2024-25 ─────────────────────────────────
+export const PRICES = {
+  panel_min_each:   12000,   // ₹ per 400Wp panel — minimum market rate
+  panel_max_each:   15000,   // ₹ per 400Wp panel — maximum market rate
+  battery_min_each: 19000,   // ₹ per 200Ah Li-ion with warranty — min
+  battery_max_each: 23000,   // ₹ per 200Ah Li-ion with warranty — max
+  battery_ah:       200,     // Ah capacity per battery unit
+  inverter: {                // ₹ range by VA rating
+    1000:  { min:  6000, max:  9000 },
+    2000:  { min: 11000, max: 15000 },
+    3000:  { min: 18000, max: 24000 },
+    5000:  { min: 30000, max: 40000 },
+    7500:  { min: 45000, max: 60000 },
+    10000: { min: 65000, max: 85000 },
   },
-  {
-    id: "offgrid",
-    name: "Off-Grid",
-    icon: "🏕️",
-    desc: "Fully independent. Best for remote locations with no grid access.",
-    pros: ["100% energy independence", "Works in remote areas", "No electricity bills"],
-    cons: ["Higher upfront cost", "Battery replacement every 3–5 years"],
-    batteryRequired: true,
-  },
-  {
-    id: "hybrid",
-    name: "Hybrid",
-    icon: "🔄",
-    desc: "Best of both. Battery backup + grid connection. Most popular choice.",
-    pros: ["Backup during outages", "Can export to grid", "Flexible"],
-    cons: ["Higher cost than on-grid", "More components to maintain"],
-    batteryRequired: true,
-  },
-];
+  installation_pct: 0.15,    // 15% of equipment cost for civil, wiring, mounting
+}
 
-// ─── COST RANGES (INR) ────────────────────────────────────────────────────────
-export const COST_DATA = {
-  // Panel cost per Wp (INR)
-  panel: {
-    budget:   18,   // Polycrystalline
-    standard: 25,   // Monocrystalline PERC
-    premium:  35,   // Bifacial / HJT
-  },
-  // Battery cost per Wh (INR)
-  battery: {
-    leadAcid: 8,    // Tubular / VRLA
-    lifepo4:  22,   // LiFePO4
-  },
-  // Inverter cost per W (INR)
-  inverter: {
-    budget:   8,
-    standard: 12,
-    premium:  18,
-  },
-  // BOS (Balance of System): mounting, wiring, installation — % of panel cost
-  bos_factor: 0.35,
-};
+// ── Solar Calculation Engine ──────────────────────────────────────
+// All calculations follow standard solar PV sizing methodology.
+// Each step maps directly to the "Show Calculations" modal output.
+// ─────────────────────────────────────────────────────────────────
+export function runCalculations({ selections, systemType, backupHours, solarData }) {
 
-// ─── SYSTEM EFFICIENCY ────────────────────────────────────────────────────────
-export const EFFICIENCY = {
-  panel:    0.80,   // 80% derating for temperature, dust, aging
-  inverter: 0.95,   // 95% inverter efficiency
-  battery:  0.85,   // 85% round-trip battery efficiency
-  wiring:   0.98,   // 98% wiring losses
-};
+  // ── STEP 1 · Load Schedule ─────────────────────────────────────
+  const loadList = APPLIANCES
+    .filter(a => (selections[a.id] || 0) > 0)
+    .map(a => {
+      const qty = selections[a.id]
+      return { ...a, qty, load_W: a.watts * qty, daily_Wh: a.watts * qty * a.hours }
+    })
 
-// ─── DEFAULT PSH (if no location data) ───────────────────────────────────────
-export const DEFAULT_PSH = 5.0; // India average
+  const totalLoad_W     = loadList.reduce((s, a) => s + a.load_W,   0)
+  const dailyEnergy_Wh  = loadList.reduce((s, a) => s + a.daily_Wh, 0)
+  const dailyEnergy_kWh = dailyEnergy_Wh / 1000
 
-// ─── BACKUP HOUR OPTIONS ─────────────────────────────────────────────────────
-export const BACKUP_HOURS = [2, 4, 6, 8, 12];
+  // ── STEP 2 · Design Energy with System Loss Factor ─────────────
+  // 25% accounts for: cable losses, dust on panels, temperature
+  // derating, and other real-world efficiency reductions.
+  const lossFactorPct    = 25
+  const lossFactor       = 1.25
+  const designEnergy_kWh = dailyEnergy_kWh * lossFactor
 
-// ─── CO2 FACTOR ──────────────────────────────────────────────────────────────
-export const CO2_PER_KWH = 0.82; // kg CO2 per kWh (India grid average)
+  // ── STEP 3 · Solar Panel Capacity ─────────────────────────────
+  // Formula: Required kWp = Design Energy ÷ (PSH × System Efficiency)
+  const psh    = solarData.annual_psh
+  const sysEff = 0.77              // Inverter(96%) × Wiring(90%) × Mismatch(89%)
+  const solarCap_kWp = designEnergy_kWh / (psh * sysEff)
+
+  // ── STEP 4 · Number of Panels ──────────────────────────────────
+  const panelWp       = 400        // Standard monocrystalline PERC panel
+  const numPanels     = Math.ceil(solarCap_kWp * 1000 / panelWp)
+  const actualCap_kWp = (numPanels * panelWp) / 1000
+
+  // ── STEP 5 · Inverter Rating ───────────────────────────────────
+  // Size to 125% of connected load to handle motor starting surges.
+  const inverterRequired_VA = totalLoad_W * 1.25
+  const INVERTER_SIZES      = [1000, 2000, 3000, 5000, 7500, 10000]
+  const inverterRating_VA   = INVERTER_SIZES.find(s => s >= inverterRequired_VA) || 10000
+
+  // ── STEP 6 · Battery Bank (off-grid only) ──────────────────────
+  // Formula: Required Ah = Backup Energy ÷ (System Voltage × DoD)
+  let battery = null
+  if (systemType === 'offgrid') {
+    const dod             = 0.80   // Lithium-Ion safe Depth of Discharge
+    const vSys            = inverterRating_VA <= 3000 ? 24 : 48
+    const backupEnergy_Wh = totalLoad_W * backupHours
+    const reqAh           = backupEnergy_Wh / (vSys * dod)
+    const unitAh          = PRICES.battery_ah
+    const numBatts        = Math.ceil(reqAh / unitAh)
+    battery = { dod, vSys, backupEnergy_Wh, reqAh: Math.ceil(reqAh), unitAh, numBatts }
+  }
+
+  // ── STEP 7 · Budget Ranges ─────────────────────────────────────
+  const panelMin = numPanels * PRICES.panel_min_each
+  const panelMax = numPanels * PRICES.panel_max_each
+  const invP     = PRICES.inverter[inverterRating_VA] || { min: 11000, max: 15000 }
+  const battMin  = battery ? battery.numBatts * PRICES.battery_min_each : 0
+  const battMax  = battery ? battery.numBatts * PRICES.battery_max_each : 0
+  const equipMin = panelMin + invP.min + battMin
+  const equipMax = panelMax + invP.max + battMax
+  const instMin  = Math.round(equipMin * PRICES.installation_pct)
+  const instMax  = Math.round(equipMax * PRICES.installation_pct)
+
+  const costs = {
+    panelMin, panelMax,
+    invMin: invP.min, invMax: invP.max,
+    battMin, battMax,
+    instMin, instMax,
+    totalMin: equipMin + instMin,
+    totalMax: equipMax + instMax,
+  }
+
+  // ── STEP 8 · Annual Generation & Environmental Impact ──────────
+  const annualGen_kWh = actualCap_kWp * psh * 365 * sysEff
+  const co2_kg        = annualGen_kWh * 0.82  // India CEA 2023 grid emission factor
+
+  return {
+    systemType, backupHours, solarData,
+    loadList, totalLoad_W, dailyEnergy_Wh, dailyEnergy_kWh,
+    lossFactorPct, lossFactor, designEnergy_kWh,
+    psh, sysEff, solarCap_kWp, panelWp, numPanels, actualCap_kWp,
+    inverterRequired_VA, inverterRating_VA,
+    battery, costs,
+    annualGen_kWh, co2_kg,
+  }
+}
